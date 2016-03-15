@@ -1,4 +1,6 @@
 package pl.com.arekp.kody;
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -51,6 +53,7 @@ public class ServiceHandler {
 
             // Checking http request method type
             if (method == POST) {
+                Log.d("makeServiceCall", "jestesmy w POST");
                 HttpPost httpPost = new HttpPost(url);
                 // adding post params
                 if (params != null) {
@@ -60,6 +63,7 @@ public class ServiceHandler {
                 httpResponse = httpClient.execute(httpPost);
 
             } else if (method == GET) {
+                Log.d("makeServiceCall", "jestesmy w GET");
                 // appending params to url
                 if (params != null) {
                     String paramString = URLEncodedUtils
