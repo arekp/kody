@@ -30,6 +30,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -321,6 +324,8 @@ Intent i = new Intent(this,KodActivity.class);
 
         private final String mEmail;
         private final String mPassword;
+        private String status;
+        private String message;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -330,19 +335,34 @@ Intent i = new Intent(this,KodActivity.class);
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
-
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
+String url = "http://arekp.xlx.pl/pawel/login.php?username="+mEmail+"&haslo="+mPassword;
+Log.d("UserLoginTask",url);
+            ServiceHandler sh = new ServiceHandler();
+            String json = sh.makeServiceCall(url,1);
+            try {
+                JSONObject jObj = new JSONObject(json);
+                status = jObj.getString("success");
+                message = jObj.getString("message");
+                Log.d("UserLoginTask",status+" - "+ message);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.d("UserLoginTask","blad parsowania json");
             }
 
-            // TODO: register the new account here.
+        if (status.contentEquals("1")) {
             return true;
+        }else{return false;
+        }
+         //   for (String credential : DUMMY_CREDENTIALS) {
+         //       String[] pieces = credential.split(":");
+          //      if (pieces[0].equals(mEmail)) {
+          //          // Account exists, return true if the password matches.
+          //          return pieces[1].equals(mPassword);
+          //      }
+          //  }
+
+            // TODO: register the new account here.
+            //return true;
         }
 
         @Override

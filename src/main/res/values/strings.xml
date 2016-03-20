@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">kody</string>
+    <string name="app_name">Czytnik kodów</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
